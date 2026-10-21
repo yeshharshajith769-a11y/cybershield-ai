@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07111f">
+  <title>CyberShield AI | Knotex Technologies</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #07111f; color: #eaf4ff;
+    }
+    header {
+      padding: 22px 7%;
+      border-bottom: 1px solid #1b3550;
+      display: flex; justify-content: space-between;
+      align-items: center; gap: 12px;
+    }
+    .brand { color: #5ddcff; font-weight: 800; }
+    main { max-width: 900px; margin: auto; padding: 65px 22px; }
+    h1 { font-size: clamp(34px, 7vw, 58px); margin-bottom: 12px; }
+    .accent { color: #5ddcff; }
+    p { color: #a9bdd2; line-height: 1.7; }
+    .panel {
+      background: #0d1b2d; border: 1px solid #24415e;
+      border-radius: 18px; padding: 24px; margin-top: 28px;
+    }
+    textarea {
+      width: 100%; min-height: 110px; padding: 14px;
+      background: #07111f; color: white;
+      border: 1px solid #36516e; border-radius: 10px;
+      font: inherit; resize: vertical;
+    }
+    button {
+      margin-top: 14px; padding: 13px 19px;
+      background: #5ddcff; color: #07111f;
+      border: 0; border-radius: 9px; font-weight: bold;
+      cursor: pointer;
+    }
+    #result { white-space: pre-wrap; overflow-wrap: anywhere; }
+    footer { padding: 24px; text-align: center; color: #849bb2; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">🛡 CyberShield AI</div>
+    <span>BY KNOTEX TECHNOLOGIES</span>
+  </header>
+
+  <main>
+    <p class="accent">YOUR DIGITAL DEFENSE STARTS HERE</p>
+    <h1>Stay ahead of <span class="accent">online threats.</span></h1>
+    <p>
+      Analyze suspicious messages and identify common warning
+      signs with your cybersecurity assistant.
+    </p>
+
+    <section class="panel">
+      <h2>Scam Message Analyzer</h2>
+      <p>Paste a message to check for common scam warning signs.</p>
+      <textarea id="message" placeholder="Paste a suspicious message here..."></textarea>
+      <button onclick="analyze()">Analyze message</button>
+      <p id="result" aria-live="polite">Your analysis will appear here.</p>
+      <p><small>This basic local demo is not an AI model and cannot
+      establish whether a message is safe.</small></p>
+    </section>
+  </main>
+
+  <footer>
+    CyberShield AI · Knotex Technologies Pvt Ltd
+  </footer>
+
+  <script>
+    function analyze() {
+      const text = document.getElementById("message").value.trim();
+      const result = document.getElementById("result");
+
+      if (!text) {
+        result.textContent = "Please enter a message to analyze.";
+        return;
+      }
+
+      const patterns = [
+        [/urgent|immediately|act now/i, "Urgent or pressuring language"],
+        [/otp|password|verification code/i, "Request involving credentials or codes"],
+        [/prize|winner|lottery|claim reward/i, "Unexpected prize or reward"],
+        [/send money|pay now|bank transfer/i, "Payment pressure"],
+        [/bit\.ly|tinyurl\.com|t\.co/i, "Shortened link"]
+      ];
+
+      const findings = patterns
+        .filter(([pattern]) => pattern.test(text))
+        .map(([, label]) => "• " + label);
+
+      result.textContent = findings.length
+        ? "Warning signs detected:\n" + findings.join("\n") +
+          "\n\nTreat this message cautiously and verify it independently."
+        : "No listed warning signs were detected. This does not mean the message is safe.";
+    }
+  </script>
+</body>
+</html>
